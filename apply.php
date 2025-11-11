@@ -1,5 +1,6 @@
 <?php
 $page_title="Apply";
+include "initialize.php";
 include "header.inc";
 include "settings.php";
 $conn = db_connect();

@@ -1,4 +1,6 @@
-<?php $page_title="Home"; include "header.inc"; ?>
+<?php $page_title="Home";
+include "initialize.php"; 
+include "header.inc"; ?>
 <section class="grid">
   <article class="card">
     <h2>Careers Portal</h2>

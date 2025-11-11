@@ -1,16 +1,17 @@
 <?php
-// Start session if not already started
+// Start session if not it had not started already
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Handle theme toggle
+// Theme toggle from URL
 if (isset($_GET['theme'])) {
+    // chỉ chấp nhận 'dark', còn lại cho về 'light'
     $theme = ($_GET['theme'] === 'dark') ? 'dark' : 'light';
     $_SESSION['theme'] = $theme;
 }
 
-// Determine current theme (default = light)
+// Determine the current theme (default = light)
 $currentTheme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
 ?>
 <!DOCTYPE html>
@@ -23,9 +24,7 @@ $currentTheme = isset($_SESSION['theme']) ? $_SESSION['theme'] : 'light';
   <meta name="description" content="COS10026 Project Part 2 — Server-side & Dynamic Web Programming demo site." />
 </head>
 
-<!-- Apply the theme class to body -->
-<body class="<?php echo $currentTheme; ?>">
-
+<body class="<?php echo htmlspecialchars($currentTheme); ?>">
 <header role="banner" class="site-header">
   <div class="header-top">
     <h1 class="brand">Swin Careers</h1>

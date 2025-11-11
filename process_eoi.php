@@ -1,5 +1,6 @@
 <?php
 if($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST)){ header('Location: apply.php'); exit; }
+include "initialize.php";
 include "settings.php";
 $conn = db_connect();
 

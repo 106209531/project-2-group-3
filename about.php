@@ -1,4 +1,7 @@
-<?php $page_title="About"; include "header.inc"; ?>
+<?php $page_title="About"; 
+include "initialize.php";
+include "header.inc";
+?>
 <article class="card">
   <h2>Team</h2>
   <ul>
