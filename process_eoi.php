@@ -1,6 +1,6 @@
 <?php
+require_once __DIR__ . '/initialize.php';
 if($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST)){ header('Location: apply.php'); exit; }
-include "initialize.php";
 include "settings.php";
 $conn = db_connect();
 
@@ -31,7 +31,9 @@ mysqli_query($conn, "CREATE TABLE IF NOT EXISTS eoi (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
 // helpers
-function clean($s){ return trim(stripslashes(htmlspecialchars($s ?? '', ENT_QUOTES, 'UTF-8'))); }
+function clean($s){
+  return trim((string)($s ?? ''));
+}
 $errors = [];
 
 $job_ref    = clean($_POST['job_ref'] ?? '');
@@ -45,7 +47,7 @@ $state      = clean($_POST['state'] ?? '');
 $postcode   = clean($_POST['postcode'] ?? '');
 $email      = clean($_POST['email'] ?? '');
 $phone      = clean($_POST['phone'] ?? '');
-$skills     = $_POST['skills'] ?? [];
+$skills     = isset($_POST['skills']) && is_array($_POST['skills']) ? array_map('trim', $_POST['skills']) : [];
 $other      = clean($_POST['other_skills'] ?? '');
 
 // Validation per spec
@@ -82,17 +84,33 @@ if(!postcode_matches_state($state, $postcode)) $errors[] = "Postcode does not ma
 // enhancement requirement: if 'Other skills' typed, ensure at least the checkbox is not empty or vice versa
 if(!empty($other) && empty($skills)){ $errors[] = "If 'Other skills' provided, select at least one skill too."; }
 
+$old_input = [
+  'job_ref' => $job_ref,
+  'first_name' => $first_name,
+  'last_name' => $last_name,
+  'dob' => $dob,
+  'gender' => $gender,
+  'street' => $street,
+  'suburb' => $suburb,
+  'state' => $state,
+  'postcode' => $postcode,
+  'email' => $email,
+  'phone' => $phone,
+  'skills' => $skills,
+  'other_skills' => $other
+];
+
 if($errors){
-  http_response_code(400);
-  echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="styles/style.css"><title>EOI Error</title></head><body>';
-  echo '<main class="card"><h2>Submission Error</h2><div class="notice"><ul>';
-  foreach($errors as $e){ echo '<li>'.htmlspecialchars($e).'</li>'; }
-  echo '</ul></div><p><a class="btn" href="apply.php">Back to form</a></p></main></body></html>';
+  $_SESSION['form_errors'] = $errors;
+  $_SESSION['old_input'] = $old_input;
+  header('Location: apply.php');
   exit;
 }
 
 // Map skills into skill1..skill6
-$skillSlots = array_slice(array_map('htmlspecialchars', $skills), 0, 6);
+$allowedSkills = ['HTML','CSS','JavaScript','PHP','MySQL','Accessibility'];
+$filteredSkills = array_values(array_intersect($skills, $allowedSkills));
+$skillSlots = array_slice($filteredSkills, 0, 6);
 while(count($skillSlots)<6){ $skillSlots[] = null; }
 
 $stmt = $conn->prepare("INSERT INTO eoi (job_ref,first_name,last_name,dob,gender,street,suburb,state,postcode,email,phone,skill1,skill2,skill3,skill4,skill5,skill6,other_skills) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");

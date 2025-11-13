@@ -1,6 +1,5 @@
 <?php
 $page_title="Manager Registration";
-include "initialize.php";
 include "header.inc";
 include "settings.php";
 $conn = db_connect();

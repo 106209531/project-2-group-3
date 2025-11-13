@@ -1,7 +1,4 @@
-<?php $page_title="Enhancements";
-include "initialize.php";
- include "header.inc";
-  ?>
+<?php $page_title="Enhancements"; include "header.inc"; ?>
 <article class="card">
   <h2>Enhancements</h2>
   <ol>
