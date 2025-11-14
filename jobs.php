@@ -1,6 +1,6 @@
 <?php
 $page_title="Jobs";
-include "header.inc";a
+include "header.inc";
 include "settings.php";
 $conn = db_connect();
 
