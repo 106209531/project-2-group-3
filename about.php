@@ -2,7 +2,7 @@
 <article class="card">
     <h2>Team</h2>
 
-    <img src="images/team.jpg" alt="Team photo" style="max-width: 200px; display:block; margin-bottom: 15px;">
+    <img src="images/team.jpg" alt="Team photo">
 
     <ul>
         <li>Ho Viet Anh - Backend (EOI processing, validation, manager auth)</li>
