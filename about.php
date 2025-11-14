@@ -5,9 +5,9 @@
     <img src="images/team.jpg" alt="Team photo">
 
     <ul>
-        <li>Ho Viet Anh - Backend (EOI processing, validation, manager auth)</li>
+        <li>Ho Viet Anh - Database (schema, indexing, seed data)</li>
         <li>Vuong Nguyen Trung Dao - Frontend (layout, styles, accessibility)</li>
-        <li>Nguyen Ngoc Bao - Database (schema, indexing, seed data)</li>
+        <li>Nguyen Ngoc Bao - Backend (EOI processing, validation, manager auth)</li>
         <li>Nguyen Quang Minh - QA/Docs (test plans, presentation)</li>
     </ul>
 </article>
